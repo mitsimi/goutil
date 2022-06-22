@@ -11,7 +11,7 @@ func TestReverse(t *testing.T) {
 	gotByte := []byte{10, 9, 8, 7, 6, 5, 4, 3, 2, 1}
 	wantByte := []byte{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
 
-	t.Run("reverse bytes", func(t *testing.T) {
+	t.Run("reverse byte slice", func(t *testing.T) {
 		Reverse(&gotByte)
 		for i, v := range gotByte {
 			if v != wantByte[i] {
@@ -23,7 +23,7 @@ func TestReverse(t *testing.T) {
 	gotString := []string{"a", "b", "c", "d", "e", "f", "g", "h", "i", "j"}
 	wantString := []string{"j", "i", "h", "g", "f", "e", "d", "c", "b", "a"}
 
-	t.Run("reverse bytes", func(t *testing.T) {
+	t.Run("reverse string slice", func(t *testing.T) {
 		Reverse(&gotString)
 		for i, v := range gotString {
 			if v != wantString[i] {
@@ -77,7 +77,7 @@ func TestSorterAsc(t *testing.T) {
 		33, 36, 37, 40, 40, 57, 58, 59, 63, 63,
 	}
 
-	t.Run("Sorting integers", func(t *testing.T) {
+	t.Run("Sorting int32 slice", func(t *testing.T) {
 		// Sort the int slice.
 		SortAsc(&gotInt)
 		for i, v := range gotInt {
@@ -90,7 +90,7 @@ func TestSorterAsc(t *testing.T) {
 	gotByte := []byte{5, 8, 6, 4, 3, 7, 2, 1, 10, 9}
 	wantByte := []byte{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
 
-	t.Run("Sorting bytes", func(t *testing.T) {
+	t.Run("Sorting byte slice", func(t *testing.T) {
 		// Sort the int slice.
 		SortAsc(&gotByte)
 		for i, v := range gotByte {
@@ -100,7 +100,7 @@ func TestSorterAsc(t *testing.T) {
 		}
 	})
 
-	t.Run("string", func(t *testing.T) {
+	t.Run("Sorting string slice", func(t *testing.T) {
 		// Generate a slice with random strings.
 		var stringSlice []string
 		for i := 0; i < 10; i++ {
@@ -134,7 +134,7 @@ func TestSorterDesc(t *testing.T) {
 		-62, -66, -74, -78, -81, -88, -94, -94, -96, -98,
 	}
 
-	t.Run("Sorting integers", func(t *testing.T) {
+	t.Run("Sorting int32 slice", func(t *testing.T) {
 		// Sort the int slice.
 		SortDesc(&gotInt)
 		for i, v := range gotInt {
@@ -147,7 +147,7 @@ func TestSorterDesc(t *testing.T) {
 	gotByte := []byte{5, 8, 6, 4, 3, 7, 2, 1, 10, 9}
 	wantByte := []byte{10, 9, 8, 7, 6, 5, 4, 3, 2, 1}
 
-	t.Run("Sorting bytes", func(t *testing.T) {
+	t.Run("Sorting byte slice", func(t *testing.T) {
 		// Sort the int slice.
 		SortDesc(&gotByte)
 		for i, v := range gotByte {
@@ -157,7 +157,7 @@ func TestSorterDesc(t *testing.T) {
 		}
 	})
 
-	t.Run("string", func(t *testing.T) {
+	t.Run("Sorting string slice", func(t *testing.T) {
 		// Generate a slice with random strings.
 		var stringSlice []string
 		for i := 0; i < 10; i++ {
