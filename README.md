@@ -1,3 +1,3 @@
-#goutil
+# goutil
 
-A little libary with few helpful functions and algorithems
+A little libary with few helpful functions and algorithms
