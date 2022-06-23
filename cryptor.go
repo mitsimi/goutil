@@ -3,33 +3,106 @@ package goutil
 import (
 	"crypto/rand"
 	"encoding/base64"
+	"fmt"
 	"math/big"
+	"regexp"
 )
 
-// Ceaser cipher
+// Caeser cipher encode
+// The Caeser cipher is a substitution cipher.
 // The key is the shift amount.
-// The key must be between 0 and 255.
-func Ceaser(b []byte, key int) []byte {
-	for i, v := range b {
-		b[i] = v + byte(key)
+// The input is the byte slice to cipher.
+// The output is the ciphered byte slice.
+// The output is the same length as the input.
+// The output is in the same order as the input.
+//
+// Only letters of the basic alphabet will be ciphered.
+func CaeserEncode(input []byte, key int) []byte {
+	var output []byte = make([]byte, len(input))
+	copy(output, input)
+	offset := byte(key % 26)
+
+	for i, v := range input {
+		if regexp.MustCompile(`[a-zA-Z]`).MatchString(string(v)) {
+			output[i] = v + offset
+			if v >= 'A' && v <= 'Z' {
+				if output[i] > 'Z' {
+					output[i] = output[i] - 26
+				}
+			} else if v >= 'a' && v <= 'z' {
+				if output[i] > 'z' {
+					output[i] = output[i] - 26
+				}
+			}
+		}
 	}
-	return b
+	return output
 }
 
-// Ceaser brute force
-func CeaserBrute(b []byte, min, max int) []byte {
-	for i := min; i <= max; i++ {
-		b = Ceaser(b, i)
+// Caeser cipher decode
+// The Caeser cipher is a substitution cipher.
+// The key is the shift amount.
+// The input is the ciphered byte slice.
+// The output is the deciphered byte slice.
+// The output is the same length as the input.
+// The output is in the same order as the input.
+func CaeserDecode(input []byte, key int) []byte {
+	var output []byte = make([]byte, len(input))
+	copy(output, input)
+	offset := byte(key % 26)
+
+	for i, v := range input {
+		if regexp.MustCompile(`[a-zA-Z]`).MatchString(string(v)) {
+			output[i] = v - offset
+			if v >= 'A' && v <= 'Z' {
+				if output[i] < 'A' {
+					output[i] = output[i] + 26
+				}
+			} else if v >= 'a' && v <= 'z' {
+				if output[i] < 'a' {
+					output[i] = output[i] + 26
+				}
+			}
+		}
+	}
+	return output
+}
+
+// Caeser brute force
+func CaeserBrute(b []byte, min, max int) (s string, key int) {
+	for key := min; key <= max; key++ {
+		s += fmt.Sprintf("%s\n", string(CaeserEncode(b, key)))
+	}
+	return
+}
+
+// Vigenere cipher
+// The key is the string to use as the key.
+// The input is the byte slice to cipher.
+// The output is the ciphered byte slice.
+// The output is the same length as the input.
+// The output is in the same order as the input.
+//
+// Only letters of the basic alphabet will be ciphered.
+func VigenereEncode(b []byte, key []byte) []byte {
+	for i, v := range b {
+		offset := key[i%len(key)]
+		b[i] = CaeserEncode([]byte{v}, int(offset))[0]
 	}
 	return b
 }
 
 // Vigenere cipher
 // The key is the string to use as the key.
-// The key must be between 0 and 255.
-func Vigenere(b []byte, key []byte) []byte {
+// The input is the ciphered byte slice.
+// The output is the deciphered byte slice.
+// The output is the same length as the input.
+// The output is in the same order as the input.
+//
+// Only letters of the basic alphabet will be deciphered.
+func VigenereDecode(b []byte, key []byte) []byte {
 	for i, v := range b {
-		b[i] = v + key[i%len(key)]
+		b[i] = v - key[i%len(key)]
 	}
 	return b
 }
@@ -37,14 +110,14 @@ func Vigenere(b []byte, key []byte) []byte {
 // Vinegere brute force
 func VigenereBrute(b []byte, key []byte, min, max int) []byte {
 	for i := min; i <= max; i++ {
-		b = Vigenere(b, key)
+		b = VigenereDecode(b, key)
 	}
 	return b
 }
 
 // Xor cipher
 // The key is the byte to use as the key.
-func Xor(b []byte, key byte) []byte {
+func XorEncode(b []byte, key byte) []byte {
 	for i, v := range b {
 		b[i] = v ^ key
 	}
@@ -54,13 +127,13 @@ func Xor(b []byte, key byte) []byte {
 // Xor brute force
 func XorBrute(b []byte, min, max int) []byte {
 	for i := min; i <= max; i++ {
-		b = Xor(b, byte(i))
+		//		b = Xor(b, byte(i))
 	}
 	return b
 }
 
 // Rot13 cipher
-func Rot13(b []byte) []byte {
+func Rot13Encode(b []byte) []byte {
 	for i, v := range b {
 		if v >= 'a' && v <= 'z' {
 			b[i] = v + 13
@@ -80,13 +153,13 @@ func Rot13(b []byte) []byte {
 // Rot13 brute force
 func Rot13Brute(b []byte, min, max int) []byte {
 	for i := min; i <= max; i++ {
-		b = Rot13(b)
+		//		b = Rot13(b)
 	}
 	return b
 }
 
 // Rot47 cipher
-func Rot47(b []byte) []byte {
+func Rot47Encode(b []byte) []byte {
 	for i, v := range b {
 		if v >= '!' && v <= '~' {
 			b[i] = v + 47
@@ -101,7 +174,7 @@ func Rot47(b []byte) []byte {
 // Rot47 brute force
 func Rot47Brute(b []byte, min, max int) []byte {
 	for i := min; i <= max; i++ {
-		b = Rot47(b)
+		//		b = Rot47(b)
 	}
 	return b
 }
