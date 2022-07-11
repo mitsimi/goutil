@@ -7,7 +7,7 @@ import (
 
 // Take a slice of any orderable type and sort it in ascending order.
 // The type of the slice must be one of the types defined by the type Any, Number.
-func SortAsc[A Any](slice *[]A) error {
+func SortAsc[C Comparable](slice *[]C) error {
 	if slice == nil {
 		return errors.New("nil slice")
 	}
@@ -25,7 +25,7 @@ func SortAsc[A Any](slice *[]A) error {
 
 //Take a slice of any orderable type and sort it in descending order.
 //The type of the slice must be one of the types defined by the type Any, Number.
-func SortDesc[A Any](slice *[]A) error {
+func SortDesc[C Comparable](slice *[]C) error {
 	if slice == nil {
 		return errors.New("nil slice")
 	}
@@ -69,7 +69,7 @@ func Reverse[A any](slice *[]A) error {
 }
 
 // Take a slice of any type and return a new slice with the same elements in the same order.
-func Copy[A any](slice *[]A) ([]A, error) {
+func CopySlice[A any](slice *[]A) ([]A, error) {
 	if slice == nil {
 		return nil, errors.New("nil slice")
 	}

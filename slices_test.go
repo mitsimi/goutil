@@ -185,7 +185,7 @@ func TestCopy(t *testing.T) {
 
 	t.Run("Copy", func(t *testing.T) {
 		// Copy the float slice.
-		cp, err := Copy(&got)
+		cp, err := CopySlice(&got)
 		if err != nil {
 			t.Errorf("got error %v, want no error", err)
 		}
@@ -196,5 +196,4 @@ func TestCopy(t *testing.T) {
 		}
 
 	})
-
 }
