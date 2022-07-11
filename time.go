@@ -53,16 +53,6 @@ const (
 	StampNano  = "Jan _2 15:04:05.000000000"
 )
 
-// TimeToString converts time.Time to string
-func TimeToString(t time.Time) string {
-	return t.Format(Stamp)
-}
-
-// StringToTime converts string to time.Time
-func StringToTime(s string) (time.Time, error) {
-	return time.Parse(Stamp, s)
-}
-
 // TimeToUnix converts time.Time to Unix timestamp
 func TimeToUnix(t time.Time) int64 {
 	return t.Unix()
