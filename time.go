@@ -93,12 +93,6 @@ func NanosToTime(nanos int64) time.Time {
 	return time.Unix(0, nanos)
 }
 
-// Timezone returns the timezone and offset of time.Time
-// The offset is the difference between UTC and local time in seconds.
-func GetTimezone(t time.Time) (string, int) {
-	return t.Zone()
-}
-
 // ConvertTimezone converts time.Time to another timezone
 func ConvertTimezone(t time.Time, zone string) time.Time {
 	loc, err := time.LoadLocation(zone)
