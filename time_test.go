@@ -76,18 +76,21 @@ func TestTime(t *testing.T) {
 
 	t.Run("timezone", func(t *testing.T) {
 		zone, offset := GetTimezone(time)
-		if zone != "CEST" {
-			t.Errorf("timezone: %s, want CEST", zone)
+		if zone != "UTC" {
+			t.Errorf("timezone: %s, want UTC", zone)
 		}
 
-		if offset != 7200 {
-			t.Errorf("offset: %d, want 2", offset/3600)
+		if offset != 0 {
+			t.Errorf("offset: %d, want 0", offset)
 		}
 	})
 
 	t.Run("Change timezone", func(t *testing.T) {
-		if offset := ConvertTimezone(time, "Europe/London").Hour(); offset != time.Hour()-1 {
-			t.Errorf("ConvertTimezone(%v, %v) = %v, want %v", time, "Europe/London", offset, time.Hour()-1)
+		if offset := ConvertTimezone(time, "Europe/London").Hour(); offset != time.Hour()+1 {
+			t.Errorf("ConvertTimezone(%v, %v) = %v, want %v", time, "Europe/London", offset, time.Hour()+1)
+		}
+		if offset := ConvertTimezone(time, "Asia/Tokyo").Hour(); offset != time.Hour()+9 {
+			t.Errorf("ConvertTimezone(%v, %v) = %v, want %v", time, "Asia/Tokyo", offset, time.Hour()+9)
 		}
 	})
 }
